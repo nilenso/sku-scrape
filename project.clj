@@ -5,10 +5,12 @@
             :url  "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [ring/ring-jetty-adapter "1.7.1"]
-                 [http-kit "2.3.0"]
+                 [http-kit "2.4.0-alpha3"]
                  [metosin/reitit "0.3.10"]
                  [mount "0.1.16"]
-                 [aero "1.1.3"]]
+                 [aero "1.1.3"]
+                 [enlive "1.1.6"]
+                 [crouton "0.1.2"]]
   :plugins [[lein-ring "0.12.5"]
             [lein-cloverage "1.1.2"]]
   :main questionable-scraper.core
