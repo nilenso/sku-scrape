@@ -2,7 +2,8 @@
   (:require [clojure.string :as str]
             [org.httpkit.client :as http]
             [net.cgrand.enlive-html :as html]
-            [crouton.html :as crouton]))
+            [crouton.html :as crouton]
+            [questionable-scraper.utils :as utils]))
 
 (def root-url "http://www.flipkart.com")
 (def search-url "http://www.flipkart.com/search?q=%s")
@@ -37,7 +38,7 @@
 (defn extract-details
   [sku]
   {:name  (extract-name sku)
-   :price (extract-price sku)
+   :price (utils/string->int (extract-price sku))
    :url   (extract-url sku)})
 
 (defn fetch-skus
