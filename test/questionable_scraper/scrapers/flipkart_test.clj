@@ -1,15 +1,11 @@
 (ns questionable-scraper.scrapers.flipkart-test
   (:require [clojure.test :refer :all]
-            [questionable-scraper.scrapers.flipkart :as flipkart]
             [net.cgrand.enlive-html :as html]
-            [clojure.spec.alpha :as s]))
+            [clojure.spec.alpha :as s]
+            [questionable-scraper.spec :as spec]
+            [questionable-scraper.scrapers.flipkart :as flipkart]))
 
 (def sample-sku "Washing machine")
-(s/def ::name (complement empty?))
-(s/def ::price pos-int?)
-(s/def ::url (complement empty?))
-(s/def ::sku (s/keys :req-un [::name ::price ::url]))
-(s/def ::skus (s/coll-of ::sku))
 
 (deftest fetch-test
   (let [page-html (flipkart/fetch-search-results (flipkart/format-search-url sample-sku))]
@@ -17,5 +13,6 @@
       (is (some? (:content (first (html/select page-html [:#container]))))))
 
     (testing "Tests if extract-details gets right data."
-      (is (s/valid? ::skus (->> (flipkart/extract-skus page-html)
-                                (map flipkart/extract-details)))))))
+      (is (s/valid? ::spec/skus (->> (flipkart/extract-skus page-html)
+                                     (map flipkart/extract-details)
+                                     flipkart/remove-invalid-skus))))))

@@ -3,7 +3,9 @@
             [org.httpkit.client :as http]
             [net.cgrand.enlive-html :as html]
             [crouton.html :as crouton]
-            [questionable-scraper.utils :as utils]))
+            [clojure.spec.alpha :as s]
+            [questionable-scraper.utils :as utils]
+            [questionable-scraper.spec :as spec]))
 
 (def root-url "http://www.flipkart.com")
 (def search-url "http://www.flipkart.com/search?q=%s")
@@ -41,12 +43,18 @@
    :price (utils/string->int (extract-price sku))
    :url   (extract-url sku)})
 
+(defn remove-invalid-skus
+  [skus]
+  (filter #(s/valid? ::spec/sku %) skus))
+
 (defn fetch-skus
   [search-keywords]
   (->> search-keywords
        format-search-url
        fetch-search-results
        extract-skus
-       (map extract-details)))
+       (map extract-details)
+       remove-invalid-skus
+       (sort-by :price)))
 
 (comment (fetch-skus "Washing machine"))
