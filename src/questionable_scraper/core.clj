@@ -1,4 +1,5 @@
 (ns questionable-scraper.core
+  (:gen-class)
   (:require [org.httpkit.server :as httpkit]
             [questionable-scraper.config :as config]
             [questionable-scraper.routes :as routes]

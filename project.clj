@@ -15,5 +15,6 @@
   :plugins [[lein-ring "0.12.5"]
             [lein-cloverage "1.1.2"]]
   :main questionable-scraper.core
+  :aot [questionable-scraper.core]
   :ring {:handler questionable-scraper.core/app-handler}
   :repl-options {:init-ns questionable-scraper.core})
