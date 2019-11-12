@@ -1,0 +1,61 @@
+(ns questionable-scraper.scrapers.shopclues
+  (:require [clojure.string :as str]
+            [org.httpkit.client :as http]
+            [net.cgrand.enlive-html :as html]
+            [crouton.html :as crouton]
+            [clojure.spec.alpha :as s]
+            [questionable-scraper.utils :as utils]
+            [questionable-scraper.spec :as spec]))
+
+(def root-url "https://shopclues.com")
+(def search-url "https://shopclues.com/search?q=%s")
+(def sku-selector [:div.search_blocks :a])
+(def sku-name-selector [:h2])
+(def sku-price-selector [:.p_price])
+
+(defn format-search-url
+  [search-keywords]
+  (format search-url (java.net.URLEncoder/encode search-keywords)))
+
+(defn fetch-search-results
+  [url]
+  (crouton/parse-string (:body @(http/get url))))
+
+(defn extract-skus
+  [parsed-html]
+  (html/select parsed-html sku-selector))
+
+(defn extract-name
+  [sku]
+  (html/text (first (html/select sku sku-name-selector))))
+
+(defn extract-price
+  [sku]
+  (html/text (first (html/select sku sku-price-selector))))
+
+(defn extract-url
+  [sku]
+  (str "https:" (first (html/attr-values sku :href))))
+
+(defn extract-details
+  [sku]
+  {:name  (extract-name sku)
+   :price (utils/string->int (extract-price sku))
+   :url   (extract-url sku)
+   :vendor "Shopclues"})
+
+(defn remove-invalid-skus
+  [skus]
+  (filter #(s/valid? ::spec/sku %) skus))
+
+(defn fetch-skus
+  [search-keywords]
+  (->> search-keywords
+       format-search-url
+       fetch-search-results
+       extract-skus
+       (map extract-details)
+       remove-invalid-skus
+       (sort-by :price)))
+
+(comment (fetch-skus "Washing machine"))
