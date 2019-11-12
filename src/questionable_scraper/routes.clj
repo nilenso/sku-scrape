@@ -1,6 +1,7 @@
 (ns questionable-scraper.routes
   (:require [muuntaja.core :as m]
             [questionable-scraper.handlers :as handlers]
+            [questionable-scraper.views.index :as index]
             [reitit.ring :as ring]
             [reitit.coercion.spec]
             [reitit.ring.coercion :as coercion]
@@ -11,7 +12,7 @@
 (def app-routes
   (ring/router
    [["/" {:get {:handler (fn [req]
-                           {:body "<a href=\"/scrape?sku=Washing machine\">Scrape</a>"})}}]
+                           {:body (index/index-page req)})}}]
     ["/scrape"
      {:get {:parameters {:query {:sku string?}}
             :handler    handlers/scrape}}]]

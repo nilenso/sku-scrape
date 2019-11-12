@@ -10,7 +10,8 @@
                  [mount "0.1.16"]
                  [aero "1.1.3"]
                  [enlive "1.1.6"]
-                 [crouton "0.1.2"]]
+                 [crouton "0.1.2"]
+                 [hiccup "1.0.5"]]
   :plugins [[lein-ring "0.12.5"]
             [lein-cloverage "1.1.2"]]
   :main questionable-scraper.core
