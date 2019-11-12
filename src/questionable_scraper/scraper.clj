@@ -6,7 +6,7 @@
 (def prices (ref {}))
 (defstate initial-prices :start (dosync (ref-set prices {})))
 (def scrapers [flipkart/fetch-skus amazon/fetch-skus])
-(def no-of-results 10)
+(def no-of-results 20)
 
 (defn run-task
   [sku p]

@@ -42,7 +42,8 @@
   [sku]
   {:name  (extract-name sku)
    :price (utils/string->int (extract-price sku))
-   :url   (extract-url sku)})
+   :url   (extract-url sku)
+   :vendor "Amazon"})
 
 (defn remove-invalid-skus
   [skus]

@@ -39,9 +39,10 @@
 
 (defn extract-details
   [sku]
-  {:name  (extract-name sku)
-   :price (utils/string->int (extract-price sku))
-   :url   (extract-url sku)})
+  {:name   (extract-name sku)
+   :price  (utils/string->int (extract-price sku))
+   :url    (extract-url sku)
+   :vendor "Flipkart"})
 
 (defn remove-invalid-skus
   [skus]
