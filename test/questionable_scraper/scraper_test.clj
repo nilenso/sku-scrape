@@ -10,9 +10,9 @@
   (testing "Task should run only once for n concurrent calls with same sku"
     (let [call-count 100
           counter    (atom 0)]
-      (with-redefs [scraper/run-task (fn [_ _]
-                                       (swap! counter inc)
-                                       (Thread/sleep 300))]
+      (with-redefs [scraper/run-scrapers (fn [_ _]
+                                           (swap! counter inc)
+                                           (Thread/sleep 300))]
         (pmap scraper/scrape (repeat 100 "Washing Machine"))
         (Thread/sleep 600)
         ;; Check if count of pmap is = call-count

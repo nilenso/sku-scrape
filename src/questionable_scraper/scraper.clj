@@ -9,7 +9,7 @@
 (def scrapers [flipkart/fetch-skus amazon/fetch-skus shopclues/fetch-skus])
 (def no-of-results 100)
 
-(defn run-task
+(defn run-scrapers
   [sku p]
   (let [search-results (->> (doall (pmap #(% sku) scrapers))
                             flatten
@@ -24,7 +24,7 @@
    (when-not (get (ensure prices) sku)
      (let [p (promise)]
        (alter prices assoc sku p)
-       (run-task sku p))))
+       (run-scrapers sku p))))
   @(get @prices sku))
 
 (comment (scrape "Panasonic Washing machine"))
