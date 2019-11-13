@@ -13,6 +13,8 @@
       (is (some? (:content (first (html/select page-html [:#container]))))))
 
     (testing "Tests if extract-details gets right data."
-      (is (s/valid? ::spec/skus (->> (flipkart/extract-skus page-html)
+      (let [results (->> (flipkart/extract-skus page-html)
                                      (map flipkart/extract-details)
-                                     flipkart/remove-invalid-skus))))))
+                                     flipkart/remove-invalid-skus)]
+        (is (not-empty results))
+        (is (s/valid? ::spec/skus results))))))

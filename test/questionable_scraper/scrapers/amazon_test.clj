@@ -13,6 +13,8 @@
       (is (some? (:content (first (html/select page-html [:#a-page]))))))
 
     (testing "Tests if extract-details gets right data."
-      (is (s/valid? ::spec/skus (->> (amazon/extract-skus page-html)
+      (let [results (->> (amazon/extract-skus page-html)
                                      (map amazon/extract-details)
-                                     amazon/remove-invalid-skus))))))
+                                     amazon/remove-invalid-skus)]
+        (is (not-empty results))
+        (is (s/valid? ::spec/skus results))))))
