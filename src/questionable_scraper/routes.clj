@@ -22,5 +22,6 @@
                         muuntaja/format-negotiate-middleware
                         muuntaja/format-response-middleware
                         muuntaja/format-request-middleware
+                        coercion/coerce-exceptions-middleware
                         coercion/coerce-response-middleware
                         coercion/coerce-request-middleware]}}))
