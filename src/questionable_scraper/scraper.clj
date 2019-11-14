@@ -26,4 +26,24 @@
                                (run-scrapers sku)))))
   @(get @prices sku))
 
+
+;; OR cache in an atom
+(def prices-atom (atom {}))
+(defstate initial-prices-atom :start (reset! prices-atom {}))
+
+(defn add-scraper-if-none
+  [cache sku]
+  (if-not (get cache sku)
+    (assoc cache sku (delay
+                       (run-scrapers sku)))
+    cache))
+
+(defn scrape-atom
+  [sku]
+  (swap! prices-atom add-scraper-if-none sku)
+  @(get @prices-atom sku))
+
+
+
 (comment (scrape "Panasonic Washing machine"))
+(comment (scrape-w-atom "Washing machine"))

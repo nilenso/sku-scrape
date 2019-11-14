@@ -19,3 +19,14 @@
         (doall (pmap scraper/scrape (repeat 100 sample-sku)))
         ;; Check if count of pmap is = call-count
         (is (= 1 @counter))))))
+
+(deftest scrape-w-atom-tests
+  (testing "Task should run only once for n concurrent calls with same sku"
+    (let [call-count 100
+          counter    (atom 0)]
+      (with-redefs [scraper/run-scrapers (fn [sku]
+                                           (swap! counter inc)
+                                           (Thread/sleep 300)
+                                           (str "Price of" sku))]
+        (doall (pmap scraper/scrape-atom (repeat 100 sample-sku)))
+        (is (= 1 @counter))))))
