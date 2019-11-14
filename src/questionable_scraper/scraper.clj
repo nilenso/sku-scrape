@@ -11,12 +11,10 @@
 
 (defn run-scrapers
   [sku p]
-  (let [search-results (->> (doall (pmap #(% sku) scrapers))
-                            flatten
-                            (sort-by :price)
-                            (take no-of-results))]
-    ;; TODO: Insert first result in DB
-    (deliver p search-results)))
+  (deliver p (->> (doall (pmap #(% sku) scrapers))
+                  flatten
+                  (sort-by :price)
+                  (take no-of-results))))
 
 (defn scrape
   [sku]
