@@ -1,11 +1,9 @@
 (ns sku-scrape.core
   (:require
-   [sku-scrape.redis  :refer [redis-conn]]
+   [sku-scrape.server :refer [server]]
    [mount.core :as mount])
   (:gen-class))
 
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
-  (mount/start)
-  (println "Hello, World!"))
+  (mount/start))

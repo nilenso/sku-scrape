@@ -6,7 +6,12 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [mount "0.1.16"]
                  [aero "1.1.3"]
-                 [com.taoensso/carmine "2.19.1"]]
+                 [com.taoensso/carmine "2.19.1"]
+                 [compojure "1.6.1"]
+                 [ring "1.7.1"]
+                 [ring/ring-json "0.5.0"]]
+                                        ; :plugins [[lein-ring "0.12.5"]]
+                                        ;  :ring {:handler sku-scrape.server/ring-dev-handler}
   :main ^:skip-aot sku-scrape.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
