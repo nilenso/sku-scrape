@@ -8,7 +8,10 @@
                  [aero "1.1.3"]
                  [com.taoensso/carmine "2.19.1"]
                  [compojure "1.6.1"]
+                 [enlive "1.1.6"]
+                 [crouton "0.1.2"]
                  [ring "1.7.1"]
+                 [clj-http "3.10.0"]
                  [ring/ring-json "0.5.0"]]
                                         ; :plugins [[lein-ring "0.12.5"]]
                                         ;  :ring {:handler sku-scrape.server/ring-dev-handler}
